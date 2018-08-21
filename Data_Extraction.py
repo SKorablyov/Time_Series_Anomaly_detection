@@ -1,7 +1,9 @@
 import pandas as pd 
 
 def Data_Extract (FILE_NAME,MONEY) :
- 
+#def main ():
+ #FILE_NAME='train_AD.csv'
+ #MONEY='BCHUSD'
  df=pd.read_csv(FILE_NAME, encoding = "ISO-8859-1")
  df.columns =['TIMESTAMP','EX_CODE','PAIR','AB','PRICE','TRADE_SIZE']
  df['index_col'] = df.index
@@ -37,4 +39,5 @@ def Data_Extract (FILE_NAME,MONEY) :
  df_X_A.to_csv(BUY_FILE)
  df_X_B.to_csv(SELL_FILE)
  
+ #return 1
  return FILE_NAMES
