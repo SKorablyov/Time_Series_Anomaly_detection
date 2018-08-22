@@ -1,43 +1,44 @@
 import pandas as pd 
 
-def Data_Extract (FILE_NAME,MONEY) :
-#def main ():
- #FILE_NAME='train_AD.csv'
- #MONEY='BCHUSD'
- df=pd.read_csv(FILE_NAME, encoding = "ISO-8859-1")
- df.columns =['TIMESTAMP','EX_CODE','PAIR','AB','PRICE','TRADE_SIZE']
+
+def data_extract(file_name, money):
+ df = pd.read_csv(file_name, encoding="ISO-8859-1")
+ df.columns =['TIMESTAMP', 'EX_CODE', 'PAIR', 'AB', 'PRICE', 'TRADE_SIZE']
+
  df['index_col'] = df.index
 
- rows_list_A=[]
- rows_list_B=[]
- counter=0;
-#for row in input_rows:
- for counter in df['index_col'] :
-    frame=df.iloc[counter]
-    TIMESTAMP=frame['TIMESTAMP']
-    EX_CODE=frame['EX_CODE']
-    PAIR=frame['PAIR']
-    AB=frame['AB']
-    PRICE=frame['PRICE']
-    TRADE_SIZE=frame['TRADE_SIZE']
+ rows_list_a = []
+ rows_list_b = []
+
+# for row in input_rows:
+
+ for counter in df['index_col']:
+    frame = df.iloc[counter]
+    timestamp = frame['TIMESTAMP']
+    ex_code = frame['EX_CODE']
+    pair = frame['PAIR']
+    ab = frame['AB']
+    price = frame['PRICE']
+    trade_size = frame['TRADE_SIZE']
     print(counter)
-    dictionary={'TIMESTAMP' : TIMESTAMP,'EX_CODE' : EX_CODE,'PAIR' : PAIR,'AB' : AB ,'PRICE' : PRICE ,'TRADE_SIZE' : TRADE_SIZE}
+    dictionary = {'TIMESTAMP': timestamp, 'EX_CODE': ex_code, 'PAIR': pair, 'AB': ab, 'PRICE': price,
+                  'TRADE_SIZE': trade_size}
     
-    if PAIR==MONEY :
-        if AB=='A': rows_list_A.append(dictionary)
-        else : rows_list_B.append(dictionary) 
-    
+    if pair == money:
+        if ab == 'A':
+            rows_list_a.append(dictionary)
+        else:
+            rows_list_b.append(dictionary)
 
- df_X_A = pd.DataFrame(rows_list_A)     
- df_X_B = pd.DataFrame(rows_list_B) 
+ df_x_a = pd.DataFrame(rows_list_a)
+ df_x_b = pd.DataFrame(rows_list_b)
 
- BUY_FILE='BUY_' + MONEY + '.csv'
- SELL_FILE='SELL_' + MONEY + '.csv'
+ buy_file = 'BUY_' + money + '.csv'
+ sell_file = 'SELL_' + money + '.csv'
+
+ file_names = [buy_file,sell_file]
  
- FILE_NAMES=[BUY_FILE,SELL_FILE]
- 
- df_X_A.to_csv(BUY_FILE)
- df_X_B.to_csv(SELL_FILE)
- 
- #return 1
- return FILE_NAMES
+ df_x_a.to_csv(buy_file)
+ df_x_b.to_csv(sell_file)
+
+ return file_names
