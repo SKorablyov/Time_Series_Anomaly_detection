@@ -11,6 +11,13 @@ def Data_Processing (FILE_NAMES,MONEY,TIME_INTERVAL) :
     
  df_X_B=pd.read_csv(FILE_NAMES[1], encoding = "ISO-8859-1")
  df_X_A=pd.read_csv(FILE_NAMES[0], encoding = "ISO-8859-1")
+
+ #df_X_A = df_X_A.sort_values('TIMESTAMP')
+ #df_X_B = df_X_B.sort_values('TIMESTAMP')
+
+ #df_X_B.to_csv('sort_test.csv')
+
+
  
  """
  rows_list_A=[]
@@ -50,7 +57,7 @@ def Data_Processing (FILE_NAMES,MONEY,TIME_INTERVAL) :
  ALL_BUY_PRICE=0
  ALL_BUY_VALUE=0
  VOLUME_BUY=0
- 
+
  df=pd.read_csv('train_AD.csv', encoding = "ISO-8859-1")
  df.columns =['TIMESTAMP','EX_CODE','PAIR','AB','PRICE','TRADE_SIZE']
  
@@ -61,7 +68,7 @@ def Data_Processing (FILE_NAMES,MONEY,TIME_INTERVAL) :
  while TIME_START < TIME_END_REAL_A:
      if TIME_END > TIME_END_REAL_A : TIME_END=TIME_END_REAL_A
      counter_BUY=0
-     while df_X_A['TIMESTAMP'][x]>=TIME_START and df_X_A['TIMESTAMP'][x]<TIME_END :
+     while df_X_A['TIMESTAMP'][x]<TIME_END :
          counter_BUY=counter_BUY+1
          frame=df_X_A.iloc[x]
          ALL_BUY_PRICE=ALL_BUY_PRICE+frame['PRICE']
@@ -91,8 +98,7 @@ def Data_Processing (FILE_NAMES,MONEY,TIME_INTERVAL) :
  
  SELL_LIST=[]
  
- x=0
- print('progress - 75%')
+ x = 0
  
  PREVIOUS_SELL_PRICE=0
  ALL_SELL_PRICE=0
@@ -108,8 +114,7 @@ def Data_Processing (FILE_NAMES,MONEY,TIME_INTERVAL) :
      counter_SELL=0
      if TIME_END > TIME_END_REAL_B : 
          TIME_END=TIME_END_REAL_B
-         print('progress - 90 %')
-     while df_X_B['TIMESTAMP'][x]>=TIME_START and df_X_B['TIMESTAMP'][x]<TIME_END :
+     while df_X_B['TIMESTAMP'][x]<TIME_END :
          counter_SELL=counter_SELL+1
          frame=df_X_B.iloc[x]
          ALL_SELL_PRICE=ALL_SELL_PRICE+frame['PRICE']
@@ -129,7 +134,7 @@ def Data_Processing (FILE_NAMES,MONEY,TIME_INTERVAL) :
          VOLUME_SELL=0
      else:
          MEAN_PRICE=ALL_SELL_PRICE/counter_SELL
-     dictionary={'TIME':TIME_START ,'VALUE' :ALL_SELL_VALUE,'PRICE':MEAN_PRICE,'VOLUME':VOLUME_SELL,'OPTI' : counter_SELL}   
+     dictionary={'TIME':TIME_START ,'VALUE' :ALL_SELL_VALUE,'PRICE':MEAN_PRICE,'VOLUME':VOLUME_SELL,'OPTI' : counter_SELL}
      SELL_LIST.append(dictionary)
      PREVIOUS_SELL_PRICE=MEAN_PRICE
      TIME_START=TIME_END
